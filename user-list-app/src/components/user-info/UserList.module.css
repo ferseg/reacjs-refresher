@@ -1,0 +1,8 @@
+.user-list {
+  margin-top: 1.3rem;
+}
+
+.user-list ul li{
+  display: flex;
+  justify-content: space-between;
+}
