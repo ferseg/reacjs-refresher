@@ -43,8 +43,16 @@ const UserForm = ({ onAdd }) => {
   return (
     <>
       <Container>
-        <TextInput title="User name" value={username} onChange={usernameChangeHandler}/>
-        <TextInput title="Age (years)" value={age} onChange={ageChangeHandler}/>
+        <TextInput
+          title="User name"
+          value={username}
+          onChange={usernameChangeHandler}
+        />
+        <TextInput
+          title="Age (years)"
+          value={age}
+          onChange={ageChangeHandler}
+        />
         <button onClick={addUserInformationHandler}>Add</button>
       </Container>
       {showErrorModal && (
