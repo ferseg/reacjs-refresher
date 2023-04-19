@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDishDto } from './dto/create-dish.dto';
@@ -21,14 +21,21 @@ export class DishesService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} dish`;
+    const dish = this.dishRepository.findOne({ where: { id } });
+    if (!dish) {
+      throw new NotFoundException('The requested dish does not exist');
+    }
+    return dish;
   }
 
-  update(id: number, updateDishDto: UpdateDishDto) {
-    return `This action updates a #${id} dish`;
+  async update(id: number, updateDishDto: UpdateDishDto) {
+    const dish = await this.findOne(id);
+    Object.assign(dish, updateDishDto);
+    return this.dishRepository.save(dish);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dish`;
+  async remove(id: number) {
+    const dish = await this.findOne(id);
+    return this.dishRepository.remove(dish);
   }
 }
