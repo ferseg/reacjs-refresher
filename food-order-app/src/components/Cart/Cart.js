@@ -58,6 +58,7 @@ const Cart = ({ onClose }) => {
       body: request,
     });
     setShowForm(false);
+    cartCtx.clearItems();
     onClose();
   };
 
