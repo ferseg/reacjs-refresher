@@ -5,16 +5,13 @@ import MealDetail from "./MealDetail/MealDetail";
 import useHttp from "../../hooks/use-http";
 
 const AvailableMeals = () => {
-  const { makeRequest } = useHttp("http://localhost:3001");
+  const { isLoading, makeRequest } = useHttp("http://localhost:3001");
   const [meals, setMeals] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
     const fetch = async () => {
       const httResponse = await makeRequest({ url: "dishes" });
       setMeals(httResponse.results);
-      setIsLoading(false);
     };
     fetch();
   }, [makeRequest]);

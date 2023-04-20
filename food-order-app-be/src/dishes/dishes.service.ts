@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
@@ -37,5 +37,15 @@ export class DishesService {
   async remove(id: number) {
     const dish = await this.findOne(id);
     return this.dishRepository.remove(dish);
+  }
+
+  async getDishes(id: number[]): Promise<{ [id: number]: Dish }> {
+    const dishes = await this.dishRepository.find({ where: { id: In(id) } });
+    const result = {};
+    dishes.forEach((dish) => (result[dish.id] = dish));
+    return dishes.reduce((currState, dish) => {
+      currState[dish.id] = dish;
+      return currState;
+    }, {});
   }
 }
